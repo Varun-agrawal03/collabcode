@@ -3,7 +3,6 @@
   "name": "collabcode-server",
   "version": "1.0.0",
   "description": "Real-time collaborative code editor",
-  "private": true,
   "scripts": {
     "start": "node server/index.js",
     "build": "echo 'No build needed'"
