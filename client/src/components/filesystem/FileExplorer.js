@@ -57,7 +57,7 @@ function ContextMenu({ x, y, node, onRename, onDelete, onCreate, onClose }) {
 }
 
 // ── Single Tree Node ──────────────────────────────────────────────────────────
-function TreeNode({ node, depth, activeFileId, openTabs, onOpen, onRename, onDelete, onCreate }) {
+function TreeNode({ node, depth, activeFileId, openTabs, onOpen, onRename, onDelete, onCreate, newItem, setNewItem  }) {
   const [expanded, setExpanded] = useState(depth < 2); // auto-expand top levels
   const [ctxMenu, setCtxMenu]   = useState(null);
   const [renaming, setRenaming] = useState(false);
@@ -125,6 +125,8 @@ function TreeNode({ node, depth, activeFileId, openTabs, onOpen, onRename, onDel
             onRename={onRename}
             onDelete={onDelete}
             onCreate={onCreate}
+            newItem={newItem}           
+            setNewItem={setNewItem} 
           />
         ))}
 
@@ -134,6 +136,10 @@ function TreeNode({ node, depth, activeFileId, openTabs, onOpen, onRename, onDel
             onRename={handleRenameStart}
             onDelete={onDelete}
             onCreate={onCreate}
+            onRequestCreate={(parentId, type) => {        // ← CHANGED
+            setNewItem({ parentId, type });             // opens the inline input
+            setExpanded(true);                          // expand folder so input is visible
+          }}
             onClose={() => setCtxMenu(null)}
           />
         )}
@@ -316,6 +322,8 @@ function FileExplorer({ fs, roomId, activeFileId, openTabs, onOpen, onCreate, on
             onRename={onRename}
             onDelete={onDelete}
             onCreate={(parentId, name, type) => onCreate(parentId, name, type)}
+            newItem={newItem}                         
+            setNewItem={setNewItem}
           />
         ))}
       </div>
